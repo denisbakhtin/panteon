@@ -1,0 +1,19 @@
+{{define "orders/confirm"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="one-column" class="order-confirm">
+  <h1 class="text-center">{{.Title}}</h1>
+  <div class="description">
+    <p class="text-justify">
+      {{.Order.FirstName}} {{.Order.MiddleName}}, спасибо, что обратились в нашу компанию! Мы ценим внимание и пожелание каждого нашего клиента и в ближайшее время свяжемся с Вами для уточнения всех деталей заказа!
+    </p>
+    <p class="text-center">Сейчас Вы можете вернуться на <a href="/">Главную страницу</a> сайта.</p>
+  </div>
+</div>
+
+{{template "our_works" .}}
+{{template "our_advantages" .}}
+
+{{template "footer" .}}
+{{end}}

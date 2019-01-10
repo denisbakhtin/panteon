@@ -1,0 +1,20 @@
+{{define "errors/405"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="one-column">
+  <div class="text-center">
+    <h1>405 Ошибка</h1>
+    <div class="description">
+      <p>Метод запроса не поддерживается.</p>
+      <h3>Что же делать?</h3>
+      <p>Вернитесь на предыдущую страницу и повторите запрос.</p>
+      {{if .Error}}
+        {{.Error}}
+      {{end}}
+    </div>
+  </div>
+</div>
+
+{{template "footer" .}}
+{{end}}

@@ -1,0 +1,36 @@
+{{define "advantages/index"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <table class="table table-hover">
+    <thead class="thead-grey">
+      <tr>
+        <th class="shrink">#</th>
+        <th>Название</th>
+        <th class="shrink">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Advantages}}
+        <tr data-url="/admin/advantages/{{.ID}}/edit">
+          <td class="shrink">{{.ID}}</td>
+          <td>{{.Title}}</td>
+          <td class="shrink">
+            <a href="/admin/advantages/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <form class="inline-block" action="/admin/advantages/{{.ID}}/delete" method="post">
+              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <div class="actions">
+    <a href="/admin/new_advantage" class="btn btn-secondary">Новое преимущество</a>
+  </div>
+</div>
+{{template "footer" .}}
+{{end}}

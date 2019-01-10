@@ -1,0 +1,23 @@
+{{define "recommended"}}
+	<div class="bg-secondary text-white p-2">
+		Мы рекоммендуем
+	</div>
+	{{$recs := recommended}}
+	<div id="recommended-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+		<ol class="carousel-indicators">
+			{{range $index, $el := $recs}}
+				<li data-target="#recommended-carousel" data-slide-to="{{$index}}" class="{{if eq $index 0}}active{{end}}"></li>
+			{{end}}
+		</ol>
+		<div class="carousel-inner">
+			{{range $index, $el := $recs}}
+				<div class="carousel-item {{if eq $index 0}}active{{end}}">
+					<a class="recommended-item {{if eq $index 0}}active{{end}}" href="{{.URL}}">
+						<img class="d-block img-fluid" src="{{.DefaultImage}}" />
+						<p>{{.Title}}. {{.Code}}</p>
+					</a>
+				</div>
+			{{end}}
+		</div> 
+	</div>
+{{end}}

@@ -1,0 +1,31 @@
+{{define "head"}}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="{{.MetaDescription}}">
+	<meta name="keywords" content="{{.MetaKeywords}}">
+	<link rel="alternate" type="application/rss+xml" title="Ginblog rss" href="/rss" />
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon-16x16.png">
+	<link rel="manifest" href="/public/images/site.webmanifest">
+	<link rel="mask-icon" href="/public/images/safari-pinned-tab.svg" color="#f8f9fe">
+	<link rel="shortcut icon" href="/public/images/favicon.ico">
+	<meta name="msapplication-TileColor" content="#f8f9fe">
+	<meta name="msapplication-config" content="/public/images/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<title>
+		{{if len .Title | lt 0}}
+			{{.Title}} | {{getSetting "title_suffix"}}
+		{{else}}
+			{{getSetting "title_suffix"}}
+		{{end}}
+	</title>
+	<link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,600|Exo+2:300,400,400i,600|IBM+Plex+Sans:300,400,400i,600|Open+Sans:300,400,400i,600|PT+Serif:400,400i,700|Roboto:300,400,400i,700|Vollkorn:400,400i,600&amp;subset=cyrillic" rel="stylesheet">
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="/public/assets/main.css">
+</head>
+{{end}}

@@ -1,0 +1,105 @@
+{{define "navbar"}}
+<div class="sup-navbar">
+  <div class="top-links text-right">
+    <a class="mr-2 cart-link text-secondary" href="/cart"><i class="fas fa-shopping-cart mr-1"></i> Корзина</a>
+    {{if isUserAuthenticated .Context}}
+      <a class="mr-2" href="/admin/products">Панель управления</a>
+      <a class="text-warning" href="/signout">Выйти</a>
+    {{else}}
+      <a href="/signin">Войти</a>
+    {{end}}
+  </div>
+
+  {{template "hr"}}
+
+  <div class="brand d-flex align-items-center justify-content-between mb-4">
+    <div class="logo flex-fill">
+      <a class="d-flex align-items-center" href="/">
+        <img alt="Недорогие памятники Пантеон" src="/public/images/logo.png" class="img-fluid float-left mr-4"/>
+        <div class="title">
+          <span class="company-name">ПАНТЕОН</span><br/>
+          <span class="company-slogan text-muted">ПАМЯТНИКИ ПО НИЗКИМ ЦЕНАМ</span>
+          <hr />
+        </div>
+      </a>
+    </div> <!-- logo -->
+
+    <div class="center flex-fill d-none d-md-block">
+      <form autocomplete="off" method="GET" action="/search">
+        <div class="input-group autocomplete">
+          <input type="text" id="search" name="search" class="form-control" placeholder="Поиск по сайту...">
+          <div class="input-group-append">
+            <button type="submit" class="btn"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+      <div class="text-center mt-2">
+        <a class="order-consult" href="/orderconsult" data-toggle="modal" data-target="#order-consult">ЗАКАЖИТЕ КОНСУЛЬТАЦИЮ</a>
+      </div>
+    </div> <!-- center -->
+
+    <div class="contacts flex-fill text-right">
+      {{$tel1 := getSetting "tel_1"}}
+      {{$tel2 := getSetting "tel_2"}}
+      {{$tel3 := getSetting "tel_3"}}
+      {{$email := getSetting "email"}}
+      {{if len $tel1 | lt 0}}
+        <div>
+          <i class="fas fa-phone mr-1"></i>
+          <a href="tel:{{tel $tel1}}">{{$tel1}}</a>
+        </div>
+      {{end}}
+      {{if len $tel2 | lt 0}}
+        <div>
+          <i class="fas fa-phone mr-1"></i>
+          <a href="tel:{{tel $tel2}}">{{$tel2}}</a>
+        </div>
+      {{end}}
+      {{if len $tel3 | lt 0}}
+        <div>
+          <i class="fas fa-phone mr-1"></i>
+          <a href="tel:{{tel $tel3}}">{{$tel3}}</a>
+        </div>
+      {{end}}
+      {{if len $email | lt 0}}
+        <div>
+          <i class="fas fa-envelope mr-1"></i>
+          <a class="text-danger strong" href="mailto:{{$email}}">{{$email}}</a>
+        </div>
+      {{end}}
+    </div> <!-- contacts -->
+  </div><!-- brand -->
+</div>
+
+<hr />
+<!-- navbar -->
+<div class="navbar navbar-expand-md navbar-light" role="navigation">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-title">Меню</span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarContent">
+    <ul class="navbar-nav mr-auto flex-wrap">
+      {{range topLevelCategories}}
+        {{if len .Children | lt 0}}
+          <li class="nav-item dropdown {{isActiveLink $.Context .URL}} {{.Class}}">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{.URL}}">{{.Title}}</a>
+            <div class="dropdown-menu">
+              {{range .Children}}
+                <a class="dropdown-item" href="{{.URL}}">{{.Title}}</a>
+              {{end}}
+            </div>
+          </li>
+        {{else}}
+          <li class="nav-item {{isActiveLink $.Context .URL}} {{.Class}}"><a class="nav-link" href="{{.URL}}">{{.Title}}</a></li>
+        {{end}}
+        <li class="separator">&#8226;</li>  
+      {{end}}
+      
+    </ul>
+  </div><!--/.nav-collapse -->
+
+</div> <!-- navbar -->
+<hr />
+{{end}}

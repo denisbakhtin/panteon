@@ -1,0 +1,76 @@
+{{define "products/show"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="two-column" class="products-show">
+  <div class="row align-items-stretch">
+    <div class="col-sm-4 col-md-4 mb-4">
+      {{if len .DefaultImage | lt 0}}
+        <div class="image-wrapper">
+          <a href="#" data-featherlight="{{.DefaultImage}}">
+            <img src="{{.DefaultImage}}" class="img-fluid" />
+            <span class="zoom">Увеличить</span>
+          </a>
+        </div>
+      {{else}}
+        Show Blank Image
+      {{end}}
+      
+      {{if len .Product.Images | lt 1}}
+        <p class="text-center small">Кликните для просмотра полноразмерной фотографии</p>
+        <div class="image-previews row">
+          {{range .Product.Images}}
+            <div class="col-sm-4">
+              <a href="{{.URL}}">
+                <img class="img-fluid" src="{{.URL}}" />
+              </a>
+            </div>
+            
+          {{end}}
+        </div>
+      {{end}}
+    </div>
+
+    <div class="col-sm-8 col-md-5 mb-4">
+      <div class="content">
+        <h1>{{.Product.Title}}. {{.Product.Code}}</h1>
+        <div class="description">
+          {{noescape .Product.Description}}
+        </div>
+        {{if .ShowAddToCart}}
+          <div class="mt-2">
+            <form action="/cart/add/{{.Product.ID}}" method="POST">
+              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
+              <button type="button" class="btn btn-secondary" onclick="onAddToCart(this)"><i class="fas fa-shopping-cart mr-2"></i> Добавить в корзину</a>
+            </form>
+          </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 mb-4">
+      {{template "recommended" .}}
+    </div>
+  </div>
+</div>
+
+<script>
+  function onAddToCart(button) {
+    var form = $(button.form);
+    var url = form.attr('action');
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: form.serialize(),
+      success: function(data)
+      {
+        $(form).find('.fa-shopping-cart').removeClass('fa-shopping-cart').addClass('fa-check');
+      }
+    });
+  }
+</script>
+
+{{template "our_works" .}}
+{{template "our_advantages" .}}
+
+{{template "footer" .}}
+{{end}}

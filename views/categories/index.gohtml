@@ -1,0 +1,52 @@
+{{define "categories/index"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+
+  <table class="table table-hover">
+    <thead class="thead-grey">
+      <tr>
+        <th class="shrink">#</th>
+        <th>Название</th>
+        <th>Родительский элемент</th>
+        <th class="shrink">Порядковый номер</th>
+        <th class="shrink">Опубликована</th>
+        <th class="shrink">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Categories}}
+        <tr data-url="/admin/categories/{{.ID}}/edit">
+          <td class="shrink">{{.ID}}</td>
+          <td>{{.Title}}</td>
+          {{$parent := .GetParent}}
+          <td>{{if gt $parent.ID 0}}{{$parent.ID}}. {{$parent.Title}}{{end}}</td>
+          <td class="shrink">{{.Ord}}</td>
+          <td class="shrink">
+            {{if .Published}}
+              <span class="fa fa-check"></span>
+            {{else}}
+              <span class="fa fa-times"></span>
+            {{end}}
+          </td>
+          <td class="shrink">
+            <a href="{{.URL}}" class="btn btn-sm btn-outline-primary">Просмотр</a>
+            <a href="/admin/categories/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <form class="inline-block" action="/admin/categories/{{.ID}}/delete" method="post">
+              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <div class="actions">
+    <a href="/admin/new_category" class="btn btn-primary">Новая категория</a>
+  </div>
+</div>
+
+{{template "footer" .}}
+{{end}}

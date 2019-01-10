@@ -1,0 +1,22 @@
+{{define "our_works"}}
+
+<div class="divider-wrapper">{{template "hr" .}}</div>
+    {{$ourWorks := ourWorks}}
+    <h5 class="text-center strong">ПОСЛЕДНИЕ РАБОТЫ И ОТЗЫВЫ</h2>
+    <div id="our-works-siema-wrapper">
+        <div id="our-works-carousel" >
+            {{range $index, $value := $ourWorks}}
+                <div class="siema-item">
+                    <a href="{{.URL}}" class="d-block">
+                        <img class="img-fluid d-block" src="{{.DefaultImage}}" alt="{{.Title}} фото">
+                        <p class="text-center">{{.Title}}</p>
+                    </a>
+                </div>
+            {{end}}
+        </div>
+        <div class="siema-controls">
+            <span class="our-works-prev d-inline-block mr-2"><i class="fas fa-chevron-left"></i></span>
+            <span class="our-works-next d-inline-block"><i class="fas fa-chevron-right"></i></span>
+        </div>
+    </div>
+{{end}}

@@ -1,0 +1,22 @@
+{{define "pages/show"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="one-column" class="page">
+  <h1>{{.Title}}</h1>
+  <div class="description">
+    {{noescape .Page.Description}}
+  </div>
+  {{if .ShowMap}}
+    <div id="map">
+      <h3>Схема проезда</h3>
+    </div>
+    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3AgYrQ97pBHqiXfCtKDPeNb2_8kbGeLkz8&amp;width=100%25&amp;height=450&amp;lang=ru_RU&amp;scroll=true"></script>
+  {{end}}
+</div>
+
+{{template "our_works" .}}
+{{template "our_advantages" .}}
+
+{{template "footer" .}}
+{{end}}

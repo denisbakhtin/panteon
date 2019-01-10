@@ -1,0 +1,22 @@
+{{define "emails/admin_order"}}
+<html>
+  <head>
+  </head>
+  <body>
+
+    <p>Новый заказ на сайте http://www.panteon-vlz.ru.</p>
+    <p>Имя заказчика: {{.Order.FirstName}} {{.Order.MiddleName}} {{.Order.LastName}}.</p>
+    <p>Контактный телефон: {{.Order.Phone}}.</p>
+    <p>Адрес эл. почты: {{.Order.Email}}.</p>
+    <p>Дата заказа: {{formatDateTime .Order.CreatedAt}}.</p>
+    <p>Комментарий к заказу: {{.Order.Comment}}.</p>
+
+    <p>Заказаны изделия:</p>
+    {{range .Order.Products}}
+      <p><a href="http://panteon-vlz.ru{{.URL}}" target="_blank">{{.Title}}. {{.Code}}</a></p>
+    {{end}}
+
+    <p>Данное письмо было отправлено автоматически, отвечать на него не нужно.</p>
+  </body>
+</html>
+{{end}}

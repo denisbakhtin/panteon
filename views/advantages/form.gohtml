@@ -1,0 +1,36 @@
+{{define "advantages/form"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <form method="post">
+    <fieldset>
+      <legend>{{.Title}}</legend>
+      {{range .Flash}}
+        <div class="alert alert-danger">{{.}}</div><p>
+      {{end}}
+      <input type="hidden" name="id" value="{{.Advantage.ID}}">
+      <input type="hidden" name="_csrf" value="{{.Csrf}}">
+      
+      <div class="form-group">
+        <label class="control-label" for="title">Название</label>
+        <input id="title" name="title" value="{{.Advantage.Title}}" class="form-control" required="" >
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="ck-content">Содержание</label>
+        <textarea name="description" id="ck-content">{{.Advantage.Description}}</textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+        <a class="btn btn-outline-secondary" href="/admin/advantages">Отмена</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<script src="/public/vendor/ckeditor.js"></script>
+{{template "footer" .}}
+{{end}}

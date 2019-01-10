@@ -1,0 +1,43 @@
+{{define "categories/show"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="one-column" class="category-show">
+  <h1>{{.Title}}</h1>
+  {{if isNotBlank .Category.Description}}
+    <div class="description mb-4">
+      {{noescape .Category.Description}}
+    </div>
+  {{end}}
+  {{if len .Category.Products | lt 0}}
+    <div class="row">
+      {{range .Category.Products}}
+        <div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4 product-preview-wrapper position-relative">
+          <a href="{{.URL}}" class="d-block">
+            <div class="card product-preview">
+              <img class="img-fluid card-image-top" src="{{.DefaultImage}}" alt="{{.Title}} фото" />
+              <div class="card-body text-center">
+                {{.Title}}. {{.Code}}
+              </div>
+            </div>
+          </a>
+          {{if len .Images | lt 0}}
+            <div class="hidden images">
+              {{range $index, $value := .Images}}
+                {{if lt $index 3}}
+                  <img src="{{.URL}}" class="img-fluid" />
+                {{end}}
+              {{end}}
+            </div>
+          {{end}}
+        </div>
+      {{end}}
+    </div>
+  {{end}}
+</div>
+
+{{template "our_works" .}}
+{{template "our_advantages" .}}
+
+{{template "footer" .}}
+{{end}}

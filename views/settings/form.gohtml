@@ -1,0 +1,42 @@
+{{define "settings/form"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <form method="post">
+    <fieldset>
+      <legend>{{.Title}}</legend>
+      {{range .Flash}}
+        <div class="alert alert-danger">{{.}}</div><p>
+      {{end}}
+      <input type="hidden" name="id" value="{{.Setting.ID}}">
+      <input type="hidden" name="_csrf" value="{{.Csrf}}">
+      
+      <div class="form-row form-group">
+        <div class="col-8">
+          <label class="control-label" for="title">Название</label>
+          <input id="title" name="title" value="{{.Setting.Title}}" class="form-control" required="" >
+        </div>
+
+        <div class="col-4">
+          <label class="control-label" for="code">Код</label>
+          <input id="code" name="code" value="{{.Setting.Code}}" class="form-control" required="" >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="value">Значение</label>
+        <textarea id="value" name="value" class="form-control">{{.Setting.Value}}</textarea>
+      </div>
+      
+      <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+        <a class="btn btn-outline-secondary" href="/admin/settings">Отмена</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+{{template "footer" .}}
+{{end}}

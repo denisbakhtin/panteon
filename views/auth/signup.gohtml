@@ -1,0 +1,46 @@
+{{define "auth/signup"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div class="one-column">
+  <div class="signup-wrapper">
+    <h1>Создание учетной записи</h1>
+    <div class="form-wrapper">
+      <form method="post">
+        {{range .Flash}}
+          <div class="alert alert-danger">{{.}}</div><p>
+        {{end}}
+        <input type="hidden" name="_csrf" value="{{.Csrf}}">
+
+        <div class="form-group">
+          <input id="first_name" name="first_name" placeholder="Имя *" class="form-control">
+        </div>
+        <div class="form-group">
+          <input id="middle_name" name="middle_name" placeholder="Отчество" class="form-control">
+        </div>
+        <div class="form-group">
+          <input id="last_name" name="last_name" placeholder="Фамилия *" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <input id="email" name="email" type="email" placeholder="Действующая электронная почта (email) *" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <input id="password" name="password" type="password" placeholder="Пароль *" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <input id="password_confirm" name="password_confirm" type="password" placeholder="Повторите пароль *" class="form-control">
+        </div>
+
+        <p class="text-muted">* - поля, обязательные для заполнения.</p>
+        <div class="text-center">
+          <button id="signup" name="signup" type="submit" class="btn btn-secondary btn-lg">Зарегистрировать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{template "footer" .}}
+{{end}}

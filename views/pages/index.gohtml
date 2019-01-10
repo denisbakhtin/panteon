@@ -1,0 +1,45 @@
+{{define "pages/index"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <table class="table table-hover">
+    <thead class="thead-grey">
+      <tr>
+        <th class="shrink">#</th>
+        <th>Название</th>
+        <th class="shrink">Опубликована</th>
+        <th class="shrink">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Pages}}
+        <tr data-url="/admin/pages/{{.ID}}/edit">
+          <td class="shrink">{{.ID}}</td>
+          <td>{{.Title}}</td>
+          <td class="shrink">
+            {{if .Published}}
+            <span class="fa fa-check"></span>
+            {{else}}
+            <span class="fa fa-times"></span>
+            {{end}}
+          </td>
+          <td class="shrink">
+            <a href="{{.URL}}" class="btn btn-sm btn-outline-primary">Просмотр</a>
+            <a href="/admin/pages/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <form class="inline-block" action="/admin/pages/{{.ID}}/delete" method="post">
+              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <div class="actions">
+    <a href="/admin/new_page" class="btn btn-secondary">Новая страница</a>
+  </div>
+</div>
+{{template "footer" .}}
+{{end}}

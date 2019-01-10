@@ -1,0 +1,42 @@
+{{define "auth/signin"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div class="one-column">
+  <div class="signin-wrapper">
+    <h1>Вход в систему</h1>
+    <p class="text-center">Если у вас есть учётная запись на нашем сайте, пожалуйста, авторизируйтесь.</p>
+    <div class="form-wrapper">
+      <form method="post">
+        {{range .Flash}}
+          <div class="alert alert-danger">{{.}}</div><p>
+        {{end}}
+        <input type="hidden" name="_csrf" value="{{.Csrf}}">
+        
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>
+          </div>
+          <input id="email" name="email" type="email" placeholder="Адрес электронной почты (email)" class="form-control">
+        </div>
+
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+          </div>
+          <input id="password" name="password" type="password" placeholder="Пароль" class="form-control">
+        </div>
+
+        <div class="text-center">
+          <button id="signin" name="signin" type="submit" class="btn btn-secondary btn-lg mb-3">Войти</button> <br/>
+          {{if signUpEnabled}}
+            <a href="/signup">Создать учетную запись?</a>
+          {{end}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{template "footer" .}}
+{{end}}

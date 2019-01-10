@@ -1,0 +1,76 @@
+{{define "orders/form"}}
+{{template "header" .}}
+{{template "navbar" .}}
+
+<div id="one-column">
+  <form method="post" class="order-form">
+    <h1 class="text-center">{{.Title}}</h1>
+    <p class="text-center">Для завершения заказа укажите Ваши контактные данные, необходимые для дальнейшего согласования деталей.</p>
+    <fieldset>
+      {{range .Flash}}
+        <div class="alert alert-danger">{{.}}</div><p>
+      {{end}}
+      <input type="hidden" name="_csrf" value="{{.Csrf}}">
+      
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label class="control-label" for="last_name">Фамилия</label>
+          <input id="last_name" name="last_name" value="{{.Order.LastName}}" class="form-control">
+          <small class="text-muted ml-1">Иванов</small>
+        </div>
+
+        <div class="col-4">
+          <label class="control-label" for="first_name">Имя</label>
+          <input id="first_name" name="first_name" value="{{.Order.FirstName}}" class="form-control" required>
+          <small class="text-muted ml-1">Петр</small>
+        </div>
+
+        <div class="col-4">
+          <label class="control-label" for="middle_name">Отчество</label>
+          <input id="middle_name" name="middle_name" value="{{.Order.MiddleName}}" class="form-control" required>
+          <small class="text-muted ml-1">Сергеевич</small>
+        </div>
+      </div>
+
+      <div class="form-row form-group">
+        <div class="col-6">
+          <label class="control-label" for="phone">Контактный телефон</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+            </div>
+            <input id="phone" name="phone" value="{{.Order.Phone}}" class="form-control" required>
+          </div>
+          <small class="text-muted ml-5">8 8443 33-33-33</small>
+        </div>
+
+        <div class="col-6">
+          <label class="control-label" for="email">Эл. почта</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-at"></i></span>
+            </div>
+            <input id="email" name="email" value="{{.Order.Email}}" type="email" class="form-control">
+          </div>
+          <small class="text-muted ml-5">ivanov@mail.ru</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="comment">Комментарий к заказу</label>
+        <textarea name="comment" id="comment" class="form-control" placeholder="Ваши пожелания, вопросы">{{.Order.Comment}}</textarea>
+      </div>
+
+      <div class="form-group text-center">
+        <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
+        <a class="btn btn-outline-secondary" href="/cart">Вернуться в корзину</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+{{template "our_works" .}}
+{{template "our_advantages" .}}
+
+{{template "footer" .}}
+{{end}}

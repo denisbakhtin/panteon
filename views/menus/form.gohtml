@@ -1,0 +1,64 @@
+{{define "menus/form"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+
+  <form method="post">
+    <fieldset>
+      {{range .Flash}}
+        <div class="alert alert-danger">{{.}}</div><p>
+      {{end}}
+      <input type="hidden" name="id" value="{{.Menu.ID}}">
+      <input type="hidden" name="_csrf" value="{{.Csrf}}">
+      
+      <div class="form-group">
+        <label class="control-label" for="title">Название</label>
+        <input id="title" name="title" value="{{.Menu.Title}}" class="form-control" autofocus required="" >
+      </div>
+
+      <div class="form-row form-group">
+        <div class="col-6">
+          <label class="control-label" for="parent_id">Родительский элемент</label>
+          <select id="parent_id" name="parent_id" class="form-control">
+            <option value="">-</option>
+            {{range topLevelMenuItems}}
+              {{if refEqUint $.Menu.ParentID .ID}}
+                <option value="{{.ID}}" selected>{{.Title}}</option>  
+              {{else}}
+                <option value="{{.ID}}">{{.Title}}</option>
+              {{end}}
+            {{end}}
+          </select>
+        </div>
+
+        <div class="col-6">
+          <label class="control-label" for="url">Адрес</label>
+          <input id="url" name="url" value="{{.Menu.URL}}" class="form-control" required="" >
+        </div>
+      </div>
+
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label class="control-label" for="ord">Порядковый номер</label>
+          <input id="ord" name="ord" value="{{.Menu.Ord}}" type="number" class="form-control">
+        </div>
+
+        <div class="col-8">
+          <label class="control-label" for="ord">Класс</label>
+          <input id="class" name="class" value="{{.Menu.Class}}" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+        <a class="btn btn-outline-secondary" href="/admin/menus">Отмена</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<script src="/public/vendor/ckeditor.js"></script>
+{{template "footer" .}}
+{{end}}

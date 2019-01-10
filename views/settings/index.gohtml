@@ -1,0 +1,40 @@
+{{define "settings/index"}}
+{{template "admin_header" .}}
+{{template "admin_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <table class="table table-hover">
+    <thead class="thead-grey">
+      <tr>
+        <th class="shrink">#</th>
+        <th>Название</th>
+        <th>Код</th>
+        <th>Значение</th>
+        <th class="shrink">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Settings}}
+        <tr data-url="/admin/settings/{{.ID}}/edit">
+          <td class="shrink">{{.ID}}</td>
+          <td>{{.Title}}</td>
+          <td>{{.Code}}</td>
+          <td>{{.Value}}</td>
+          <td class="shrink">
+            <a href="/admin/settings/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <form class="inline-block" action="/admin/settings/{{.ID}}/delete" method="post">
+              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <div class="actions">
+    <a href="/admin/new_setting" class="btn btn-secondary">Новая настройка</a>
+  </div>
+</div>
+{{template "footer" .}}
+{{end}}

@@ -1,0 +1,15 @@
+{{define "our_advantages"}}
+
+<div class="divider-wrapper">{{template "hr" .}}</div>
+    <h5 class="text-center strong">НАШИ ПРЕИМУЩЕСТВА</h2>
+    <div class="row advantages">
+        {{range ourAdvantages}}
+            <div class="col-sm-6 col-md-3 text-center">
+                <h4 class="text-danger strong">{{.Title}}</h4>
+                <div class="description">
+                    {{noescape .Description}}
+                </div>
+            </div>
+        {{end}}
+    </div>
+{{end}}

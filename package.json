@@ -1,0 +1,50 @@
+{
+  "name": "panteon",
+  "version": "1.0.0",
+  "description": "A company web site",
+  "main": "",
+  "dependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^2.1.5"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "bootstrap": "^4.1.3",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "jquery": "^3.3.1",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.9.3",
+    "optimize-css-assets-webpack-plugin": "^4.0.3",
+    "parsleyjs": "^2.8.1",
+    "popper.js": "^1.14.4",
+    "sass-loader": "^7.1.0",
+    "select2": "^4.0.6-rc.1",
+    "siema": "^1.5.1",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "url-loader": "^1.1.1",
+    "webpack-livereload-plugin": "^2.1.1",
+    "xhook": "^1.4.9"
+  },
+  "scripts": {
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denisbakhtin/panteon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denisbakhtin/panteon/issues"
+  },
+  "homepage": "https://github.com/denisbakhtin/panteon#readme"
+}
