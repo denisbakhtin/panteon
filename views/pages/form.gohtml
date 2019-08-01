@@ -8,7 +8,7 @@
     <fieldset>
       <legend>{{.Title}}</legend>
       {{range .Flash}}
-        <div class="alert alert-danger">{{.}}</div><p>
+        <div class="alert alert-danger">{{.}}</div>
       {{end}}
       <input type="hidden" name="id" value="{{.Page.ID}}">
       <input type="hidden" name="_csrf" value="{{.Csrf}}">

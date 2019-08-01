@@ -8,7 +8,7 @@
     <p class="text-center">Для завершения заказа укажите Ваши контактные данные, необходимые для дальнейшего согласования деталей.</p>
     <fieldset>
       {{range .Flash}}
-        <div class="alert alert-danger">{{.}}</div><p>
+        <div class="alert alert-danger">{{.}}</div>
       {{end}}
       <input type="hidden" name="_csrf" value="{{.Csrf}}">
       

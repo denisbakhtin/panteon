@@ -6,7 +6,7 @@
   <h1>{{.Title}}</h1>
   <form method="post" data-parsley-validate>
     {{range .Flash}}
-      <div class="alert alert-danger col-sm-12">{{.}}</div><p>
+      <div class="alert alert-danger col-sm-12">{{.}}</div>
     {{end}}
     <input type="hidden" name="id" value="{{.User.ID}}" >
     <input type="hidden" name="_csrf" value="{{.Csrf}}">
@@ -80,7 +80,7 @@
       <a class="btn btn-outline-secondary" href="/admin/users">Отмена</a>
     </div>
   </form>
-</iv>
+</div>
 
 {{template "footer" .}}
 {{end}}

@@ -8,7 +8,7 @@
     <div class="form-wrapper">
       <form method="post">
         {{range .Flash}}
-          <div class="alert alert-danger">{{.}}</div><p>
+          <div class="alert alert-danger">{{.}}</div>
         {{end}}
         <input type="hidden" name="_csrf" value="{{.Csrf}}">
 

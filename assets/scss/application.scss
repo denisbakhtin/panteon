@@ -25,16 +25,18 @@ body {
   font-size: 16px;
   height: 100%;
   min-height: 100vh;
-  background: $content-bg url(../images/panteon_bg13.jpg) no-repeat fixed center top;
+  background: $content-bg url(../images/panteon_bg14.jpg) no-repeat fixed center top;
   background-size: cover;
 
   &>.container-fluid {
     max-width: 1230px;
     background: $content-bg;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     height: 100%;
     min-height: 100vh;
     position: relative;
+    padding-left: 25px;
+    padding-right: 25px;
   }
 }
 
@@ -42,8 +44,8 @@ body {
   margin-top: 15px;
   padding: 15px 0;
   border-top: 1px solid $divider;
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -25px;
+  margin-right: -25px;
   background: #5a5a5a;
 
   #footer-menu {
@@ -179,7 +181,7 @@ textarea.parsley-error {
 
 .navbar {
   .separator {
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.2rem;
     color: #404040;
 
     &:last-child {
@@ -188,7 +190,6 @@ textarea.parsley-error {
   }
 
   .nav-item {
-    transition: all 0.3s ease;
 
     &:hover,
     &.active {
@@ -202,6 +203,7 @@ textarea.parsley-error {
     .nav-link {
       display: inline-block;
       text-transform: uppercase;
+      font-weight: 700;
     }
   }
 
@@ -358,6 +360,27 @@ textarea.parsley-error {
   .top-links {
     position: relative;
     padding: 15px 0;
+    margin-left: -25px;
+    margin-right: -25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background: #5a5a5a;
+
+    a {
+      color: #fff;
+
+      &:hover {
+        color: #eee;
+      }
+
+      &.cart-link {
+        color: #ddd;
+
+        &:hover {
+          color: #eee;
+        }
+      }
+    }
   }
 
   .brand {
@@ -692,16 +715,22 @@ input.form-control {
     height: 100%;
 
     a {
-      padding: 5px 10px;
+      padding: 5px;
       background: white;
       box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
       position: relative;
 
+      &:hover {
+        .mask {
+          background-color: rgba(0, 0, 0, 0.2);
+        }
+      }
+
       p {
         position: absolute;
         bottom: 5px;
-        left: 10px;
-        right: 10px;
+        left: 5px;
+        right: 5px;
         background: rgba(0, 0, 0, 0.3);
         color: white;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -713,6 +742,15 @@ input.form-control {
       img {
         max-width: 150px;
         max-height: 200px;
+      }
+
+      .mask {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        transition: background-color 0.3s ease;
       }
     }
   }
@@ -788,13 +826,16 @@ input.form-control {
 
     a {
       box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      transition: box-shadow 0.2s ease;
       height: 100%;
       display: block;
 
       &:hover {
         text-decoration: none;
         box-shadow: 1px 1px 7px $primary;
+
+        .card-body {
+          background-color: rgba(93, 135, 127, 0.3);
+        }
       }
 
       .product-preview {
@@ -806,6 +847,7 @@ input.form-control {
           color: #222;
           line-height: 1.2em;
           font-size: 15px;
+          transition: background-color 0.2s ease;
         }
       }
     }
