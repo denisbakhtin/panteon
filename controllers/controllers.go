@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"os"
+	"path"
 	"regexp"
 	"strconv"
 	"time"
@@ -66,6 +68,8 @@ func getFuncMap() template.FuncMap {
 		"isNotBlank":           isNotBlank,
 		"tel":                  tel,
 		"productTitles":        productTitles,
+		"cssVersion":           cssVersion,
+		"jsVersion":            jsVersion,
 	}
 }
 
@@ -255,4 +259,25 @@ func productTitles() []string {
 	var titles []string
 	db.Model(&models.Product{}).Where("published = true").Order("title").Pluck("title", &titles)
 	return titles
+}
+
+func cssVersion() string {
+	return fileVersion(path.Join(config.GetConfig().Public, "assets", "main.css"))
+}
+
+func jsVersion() string {
+	return fileVersion(path.Join(config.GetConfig().Public, "assets", "application.js"))
+}
+
+func fileVersion(path string) string {
+	file, err := os.Stat(path)
+	if err != nil {
+		return timeToString(time.Now())
+	}
+	modified := file.ModTime()
+	return timeToString(modified)
+}
+
+func timeToString(t time.Time) string {
+	return fmt.Sprintf("%04d%02d%02d-%02d%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute())
 }

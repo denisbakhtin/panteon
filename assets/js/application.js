@@ -6,6 +6,7 @@ import 'popper.js';
 import 'parsleyjs';
 import 'bootstrap';
 import 'select2';
+import 'jquery-smooth-scroll';
 import Siema from 'siema';
 
 import '../scss/application.scss'
@@ -162,6 +163,11 @@ $(document).ready(function () {
         $(this).closest('.product-preview-wrapper').find('.card-image-top').attr('src', $(this).attr('src'));
     });
 
+    //smooth scroll
+    $('a#smooth-scroll').smoothScroll({
+        easing: 'linear',
+        speed: 400,
+    });
 });
 
 function setDefaultImage() {
@@ -180,3 +186,11 @@ function setDefaultImage() {
 function isMobileDevice() {
     return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };
+
+$(window).bind('scroll', function () {
+    if ($(window).scrollTop() > 300) {
+        $('a#smooth-scroll').removeClass('hidden');
+    } else {
+        $('a#smooth-scroll').addClass('hidden');
+    }
+});

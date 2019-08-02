@@ -9,6 +9,7 @@
 html {
   position: relative;
   min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -831,7 +832,6 @@ input.form-control {
 
       &:hover {
         text-decoration: none;
-        box-shadow: 1px 1px 7px $primary;
 
         .card-body {
           background-color: rgba(93, 135, 127, 0.3);
@@ -985,5 +985,26 @@ dl {
       max-width: 100%;
       height: auto;
     }
+  }
+}
+
+#smooth-scroll {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  padding: 6px 15px 7px;
+  background: #5a5a5a;
+  color: #fff;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s;
+  z-index: 100;
+  font-size: 24px;
+  border-radius: 50%;
+
+  &:hover,
+  &:focus {
+    background: darken(#5a5a5a, 5%);
+    color: #fff;
+    text-decoration: none;
   }
 }
