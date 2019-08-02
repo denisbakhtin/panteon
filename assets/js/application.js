@@ -167,6 +167,7 @@ $(document).ready(function () {
     $('a#smooth-scroll').smoothScroll({
         easing: 'linear',
         speed: 400,
+        preventDefault: true,
     });
 });
 

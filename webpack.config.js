@@ -80,7 +80,7 @@ module.exports = {
 
     plugins: [
         new LiveReloadPlugin({
-            appendScriptTag: true
+            appendScriptTag: devMode
         }),
         new MiniCssExtractPlugin({
             filename: "[name].css",
