@@ -4,7 +4,7 @@
   </head>
   <body>
 
-    <p>Новый заказ на сайте http://www.panteon-vlz.ru.</p>
+    <p>Новый заказ на сайте {{domain}}.</p>
     <p>Имя заказчика: {{.Order.FirstName}} {{.Order.MiddleName}} {{.Order.LastName}}.</p>
     <p>Контактный телефон: {{.Order.Phone}}.</p>
     <p>Адрес эл. почты: {{.Order.Email}}.</p>
@@ -13,7 +13,7 @@
 
     <p>Заказаны изделия:</p>
     {{range .Order.Products}}
-      <p><a href="http://panteon-vlz.ru{{.URL}}" target="_blank">{{.Title}}. {{.Code}}</a></p>
+      <p><a href="{{domain}}{{.URL}}" target="_blank">{{.Title}}. {{.Code}}</a></p>
     {{end}}
 
     <p>Данное письмо было отправлено автоматически, отвечать на него не нужно.</p>

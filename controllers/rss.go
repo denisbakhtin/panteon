@@ -20,7 +20,7 @@ func RssGet(c *gin.Context) {
 		Title:       "Мемориальная компания Пантеон",
 		Link:        &feeds.Link{Href: domain},
 		Description: "Сайт мемориальной компании Пантеон",
-		Author:      &feeds.Author{Name: "Компания Пантеон", Email: "info@panteon-vlz.ru"},
+		Author:      &feeds.Author{Name: "Компания Пантеон", Email: getSetting("contact_email")},
 		Created:     now,
 		Copyright:   "Все права защищены © Пантеон",
 	}

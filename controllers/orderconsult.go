@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"os"
 	"path"
@@ -30,6 +31,7 @@ func notifyAdminOfOrderConsult(c *gin.Context, orderconsult *models.OrderConsult
 	go func() {
 		var b bytes.Buffer
 
+		domain := config.GetConfig().Domain
 		tmpl := template.New("").Funcs(getFuncMap())
 		workingdir, _ := os.Getwd()
 		tmpl, _ = tmpl.ParseFiles(path.Join(workingdir, "views", "emails", "admin_orderconsult.gohtml"))
@@ -42,7 +44,7 @@ func notifyAdminOfOrderConsult(c *gin.Context, orderconsult *models.OrderConsult
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", smtp.From)
 		msg.SetHeader("To", getSetting("order_email"))
-		msg.SetHeader("Subject", "Заказ консультации на сайте www.panteon-vlz.ru")
+		msg.SetHeader("Subject", fmt.Sprintf("Заказ консультации на сайте %s", domain))
 		msg.SetBody(
 			"text/html",
 			b.String(),

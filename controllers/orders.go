@@ -124,6 +124,7 @@ func notifyAdminOfOrder(c *gin.Context, order *models.Order) {
 	go func() {
 		var b bytes.Buffer
 
+		domain := config.GetConfig().Domain
 		tmpl := template.New("").Funcs(getFuncMap())
 		workingdir, _ := os.Getwd()
 		tmpl, _ = tmpl.ParseFiles(path.Join(workingdir, "views", "emails", "admin_order.gohtml"))
@@ -136,7 +137,7 @@ func notifyAdminOfOrder(c *gin.Context, order *models.Order) {
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", smtp.From)
 		msg.SetHeader("To", getSetting("order_email"))
-		msg.SetHeader("Subject", "Заказ на сайте www.panteon-vlz.ru")
+		msg.SetHeader("Subject", fmt.Sprintf("Заказ на сайте %s", domain))
 		msg.SetBody(
 			"text/html",
 			b.String(),
@@ -161,6 +162,7 @@ func notifyClientOfOrder(c *gin.Context, order *models.Order) {
 	go func() {
 		var b bytes.Buffer
 
+		domain := config.GetConfig().Domain
 		tmpl := template.New("").Funcs(getFuncMap())
 		workingdir, _ := os.Getwd()
 		tmpl, _ = tmpl.ParseFiles(path.Join(workingdir, "views", "emails", "order.gohtml"))
@@ -173,7 +175,7 @@ func notifyClientOfOrder(c *gin.Context, order *models.Order) {
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", smtp.From)
 		msg.SetHeader("To", order.Email)
-		msg.SetHeader("Subject", "Заказ на сайте www.panteon-vlz.ru")
+		msg.SetHeader("Subject", fmt.Sprintf("Заказ на сайте %s", domain))
 		msg.SetBody(
 			"text/html",
 			b.String(),

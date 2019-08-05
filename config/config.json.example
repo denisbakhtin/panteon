@@ -1,7 +1,7 @@
 {
   "debug": {
     "public": "public",
-    "domain": "http://localhost:8080",
+    "domain": "http://localhost:8081",
     "session_secret": "session-secret-phrase",
     "signup_enabled": true,
     "database": {
@@ -10,25 +10,31 @@
       "user": "your_db_user",
       "password": "your_db_user_password"
     },
-    "oauth": {
-      "google_client_id": "70128578-9e6hsdjsldfjksdf5lmqdq0mrr.apps.googleusercontent.com",
-      "google_secret": "USJDFisOOL1Z1XkP2pOVxc4j01"
+    "smtp": {
+      "from": "your@email.com",
+      "smtp": "smtp.email.com",
+      "port": "465",
+      "user": "your@email.com",
+      "password": "email_password"
     }
   },
   "release": {
-    "public": "path_to_public_dir",
+    "public": "public",
     "domain": "http://mydomain.com",
     "session_secret": "session-secret-phrase",
-    "signup_enabled": false, 
+    "signup_enabled": false,
     "database": {
-      "host": "192.168.0.1",
-      "name": "panteon_dev",
+      "host": "127.0.0.1",
+      "name": "panteon",
       "user": "your_db_user",
       "password": "your_db_user_password"
     },
-    "oauth": {
-      "google_client_id": "70128578-9e6hsdjsldfjksdf5lmqdq0mrr.apps.googleusercontent.com",
-      "google_secret": "USJDFisOOL1Z1XkP2pOVxc4j01"
+    "smtp": {
+      "from": "your@email.com",
+      "smtp": "smtp.email.com",
+      "port": "465",
+      "user": "your@email.com",
+      "password": "email_password"
     }
   }
 }

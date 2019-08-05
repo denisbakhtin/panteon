@@ -70,6 +70,7 @@ func getFuncMap() template.FuncMap {
 		"productTitles":        productTitles,
 		"cssVersion":           cssVersion,
 		"jsVersion":            jsVersion,
+		"domain":               domain,
 	}
 }
 
@@ -280,4 +281,8 @@ func fileVersion(path string) string {
 
 func timeToString(t time.Time) string {
 	return fmt.Sprintf("%04d%02d%02d-%02d%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute())
+}
+
+func domain() string {
+	return config.GetConfig().Domain
 }
