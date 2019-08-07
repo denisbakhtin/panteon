@@ -29,7 +29,7 @@ func SignInPost(c *gin.Context) {
 	session := sessions.Default(c)
 	login := models.Login{}
 	db := models.GetDB()
-	returnURL := c.DefaultQuery("return", "/admin")
+	returnURL := c.DefaultQuery("return", "/")
 	if err := c.ShouldBind(&login); err != nil {
 		session.AddFlash("Пожалуйста, укажите правильные данные.")
 		session.Save()
@@ -50,7 +50,7 @@ func SignInPost(c *gin.Context) {
 
 	session.Set(userIDKey, user.ID)
 	session.Save()
-	c.Redirect(http.StatusFound, returnURL)
+	c.Redirect(http.StatusFound, panelEntryURL(user))
 }
 
 //SignUpGet handles GET /signup route
@@ -116,4 +116,72 @@ func SignoutGet(c *gin.Context) {
 	session.Delete(userIDKey)
 	session.Save()
 	c.Redirect(http.StatusSeeOther, "/")
+}
+
+//ManageGet handles GET /:role/manage route
+func ManageGet(c *gin.Context) {
+	user := activeUser(c)
+	h := DefaultH(c)
+	h["Title"] = "Учетная запись"
+	session := sessions.Default(c)
+	h["Flash"] = session.Flashes()
+	manage := models.Manage{FirstName: user.FirstName, MiddleName: user.MiddleName, LastName: user.LastName, Email: user.Email}
+	h["Manage"] = manage
+	session.Save()
+
+	tmpl := "auth/manage"
+	switch user.Role {
+	case models.MANAGER:
+		tmpl = "auth/manager_manage"
+	case models.MEMBER:
+		tmpl = "auth/member_manage"
+	}
+	c.HTML(http.StatusOK, tmpl, h)
+}
+
+//ManagePost handles POST /:role/manage route, updates user credentials
+func ManagePost(c *gin.Context) {
+	session := sessions.Default(c)
+	db := models.GetDB()
+	user := activeUser(c)
+	manage := models.Manage{}
+	url := c.Request.RequestURI
+
+	if err := c.ShouldBind(&manage); err != nil {
+		session.AddFlash("Пожалуйста, укажите правильные данные.")
+		session.Save()
+		c.Redirect(http.StatusFound, url)
+		return
+	}
+	if manage.Password != manage.PasswordConfirm {
+		session.AddFlash("Пароль и подтверждение пароля не совпадают.")
+		session.Save()
+		c.Redirect(http.StatusFound, url)
+		return
+	}
+
+	dbuser := models.User{}
+	db.First(&dbuser, user.ID)
+
+	if user.ID == 0 {
+		logrus.Errorf("Account update error, IP: %s, Email: %s", c.ClientIP(), user.Email)
+		session.AddFlash("Ошибка обновления данных учетной записи")
+		session.Save()
+		c.Redirect(http.StatusFound, url)
+		return
+	}
+
+	dbuser.Password = manage.Password
+	dbuser.FirstName = manage.FirstName
+	dbuser.MiddleName = manage.MiddleName
+	dbuser.LastName = manage.LastName
+
+	if err := db.Save(&dbuser).Error; err != nil {
+		logrus.Errorf("Account update error: %s", err.Error())
+		session.AddFlash("Ошибка обновления данных учетной записи")
+		session.Save()
+		c.Redirect(http.StatusFound, url)
+	}
+
+	c.Redirect(http.StatusFound, panelEntryURL(*user))
 }

@@ -1,6 +1,6 @@
-{{define "orders/index"}}
+{{define "orders/manager_index"}}
 {{template "admin_header" .}}
-{{template "admin_navbar" .}}
+{{template "manager_navbar" .}}
 
 <div id="one-column">
   <h1>{{.Title}}</h1>
@@ -24,11 +24,7 @@
           <td>{{.Email}}</td>
           <td>{{formatDateTime .CreatedAt}}</td>
           <td class="shrink">
-            <a href="/admin/orders/{{.ID}}" class="btn btn-sm btn-outline-primary">Просмотр</a>
-            <form class="inline-block" action="/admin/orders/{{.ID}}/delete" method="post">
-              <input type="hidden" name="_csrf" value="{{$.Csrf}}">
-              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
-            </form>
+            <a href="/manager/orders/{{.ID}}" class="btn btn-sm btn-outline-primary">Просмотр</a>
           </td>
         </tr>
       {{else}}

@@ -71,6 +71,9 @@ func getFuncMap() template.FuncMap {
 		"cssVersion":           cssVersion,
 		"jsVersion":            jsVersion,
 		"domain":               domain,
+		"isAdmin":              isAdmin,
+		"isManager":            isManager,
+		"isMember":             isMember,
 	}
 }
 
@@ -116,46 +119,61 @@ func now() time.Time {
 
 //activeUserEmail returns currently authenticated user email
 func activeUserEmail(c *gin.Context) string {
-	if c != nil {
-		u, _ := c.Get("User")
-		if user, ok := u.(*models.User); ok {
-			return user.Email
-		}
+	user := activeUser(c)
+	if user != nil {
+		return user.Email
 	}
 	return ""
 }
 
 //activeUserName returns currently authenticated user name
 func activeUserName(c *gin.Context) string {
-	if c != nil {
-		u, _ := c.Get("User")
-		if user, ok := u.(*models.User); ok {
-			return fmt.Sprintf("%s %s", user.FirstName, user.LastName)
-		}
+	user := activeUser(c)
+	if user != nil {
+		return fmt.Sprintf("%s %s", user.FirstName, user.LastName)
 	}
 	return ""
 }
 
 //activeUserID returns currently authenticated user ID
 func activeUserID(c *gin.Context) uint64 {
-	if c != nil {
-		u, _ := c.Get("User")
-		if user, ok := u.(*models.User); ok {
-			return user.ID
-		}
+	user := activeUser(c)
+	if user != nil {
+		return user.ID
 	}
 	return 0
 }
 
-//isUserAuthenticated returns true is user is authenticated
-func isUserAuthenticated(c *gin.Context) bool {
+//activeUserRole returns currently authenticated user role
+func activeUser(c *gin.Context) *models.User {
 	if c != nil {
 		u, _ := c.Get("User")
-		if _, ok := u.(*models.User); ok {
-			return true
+		if user, ok := u.(*models.User); ok {
+			return user
 		}
 	}
-	return false
+	return nil
+}
+
+//isUserAuthenticated returns true is user is authenticated
+func isUserAuthenticated(c *gin.Context) bool {
+	user := activeUser(c)
+	return user != nil
+}
+
+func isAdmin(c *gin.Context) bool {
+	user := activeUser(c)
+	return user != nil && user.IsAdmin()
+}
+
+func isManager(c *gin.Context) bool {
+	user := activeUser(c)
+	return user != nil && user.IsManager()
+}
+
+func isMember(c *gin.Context) bool {
+	user := activeUser(c)
+	return user != nil && user.IsMember()
 }
 
 //SignUpEnabled returns true if sign up is enabled by config
@@ -200,13 +218,15 @@ func topLevelCategories() []models.Category {
 }
 
 func userRoles() []Option {
-	return []Option{Option{Value: models.MEMBER, Text: "Покупатель"}, Option{Value: models.ADMIN, Text: "Администратор"}}
+	return []Option{Option{Value: models.MEMBER, Text: "Покупатель"}, Option{Value: models.MANAGER, Text: "Менеджер"}, Option{Value: models.ADMIN, Text: "Администратор"}}
 }
 
 func userRole(role string) string {
 	switch role {
 	case models.MEMBER:
 		return "Покупатель"
+	case models.MANAGER:
+		return "Менеджер"
 	case models.ADMIN:
 		return "Администратор"
 	default:
@@ -285,4 +305,18 @@ func timeToString(t time.Time) string {
 
 func domain() string {
 	return config.GetConfig().Domain
+}
+
+//panelEntryURL returns an entry point for authenticated users
+func panelEntryURL(user models.User) string {
+	url := "/"
+	switch user.Role {
+	case models.ADMIN:
+		url = "/admin/orders"
+	case models.MANAGER:
+		url = "/manager/orders"
+	default:
+		url = "/"
+	}
+	return url
 }

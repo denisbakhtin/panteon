@@ -1,0 +1,41 @@
+{{define "orders/manager_show"}}
+{{template "admin_header" .}}
+{{template "manager_navbar" .}}
+
+<div id="one-column">
+  <h1>{{.Title}}</h1>
+  <dl class="mb-4">
+    <dt>Имя заказчика:</dt>
+    <dd>{{.Order.FirstName}} {{.Order.MiddleName}} {{.Order.LastName}}</dd>
+    <dt>Телефон:</dt>
+    <dd><a href="tel: {{tel .Order.Phone}}">{{.Order.Phone}}</a></dd>
+    <dt>Эл. почта:</dt>
+    <dd><a href="mailto:{{.Order.Email}}">{{.Order.Email}}</a></dd>
+    <dt>Дата заказа:</dt>
+    <dd>{{formatDateTime .Order.CreatedAt}}</dd>
+    <dt>Комментарий:</dt>
+    <dd>{{.Order.Comment}}</dd>
+  </dl>
+  <table class="table table-bottom-bordered">
+    <thead class="thead-grey">
+      <tr>
+        <th class="shrink">Фото</th>
+        <th>Изделие</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Order.Products}}
+        <tr>
+          <td class="shrink"><img src="{{.DefaultImage}}" class="product-image" /></td>
+          <td><a href="{{.URL}}">{{.Title}}. {{.Code}}</a></td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <div class="mt-4 text-center">
+    <a href="/manager/orders" class="btn btn-secondary">К списку заказов</a>
+  </div>
+</div>
+
+{{template "footer" .}}
+{{end}}

@@ -30,12 +30,22 @@ func ContextData() gin.HandlerFunc {
 	}
 }
 
-//AuthRequired grants access to authenticated users, requires SharedData middleware
-func AuthRequired() gin.HandlerFunc {
+//AuthRequired grants access to authenticated users with a 'role' role
+func AuthRequired(role string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		grant := false
 		if user, _ := c.Get("User"); user != nil {
+			u, ok := user.(*models.User)
+			grant = ok && u.Role == role
+		} else {
+			grant = false
+		}
+		if grant {
 			c.Next()
 		} else {
+			session := sessions.Default(c)
+			session.AddFlash("Доступ запрещен")
+			session.Save()
 			c.Redirect(http.StatusFound, fmt.Sprintf("/signin?return=%s", url.QueryEscape(c.Request.RequestURI)))
 			c.Abort()
 		}

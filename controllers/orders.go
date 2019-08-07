@@ -21,7 +21,14 @@ import (
 func OrderGet(c *gin.Context) {
 	db := models.GetDB()
 	order := models.Order{}
-	db.Preload("Products").First(&order, c.Param("id"))
+	user := activeUser(c)
+
+	if user.IsMember() {
+		db.Where("email = ?", user.Email).Preload("Products").First(&order, c.Param("id"))
+	} else {
+		db.Preload("Products").First(&order, c.Param("id"))
+	}
+
 	if order.ID == 0 {
 		c.HTML(http.StatusNotFound, "errors/404", nil)
 		return
@@ -29,18 +36,39 @@ func OrderGet(c *gin.Context) {
 	h := DefaultH(c)
 	h["Title"] = fmt.Sprintf("Заказ №%d", order.ID)
 	h["Order"] = order
-	c.HTML(http.StatusOK, "orders/show", h)
+	tmpl := "orders/show"
+	switch user.Role {
+	case models.MANAGER:
+		tmpl = "orders/manager_show"
+	case models.MEMBER:
+		tmpl = "orders/member_show"
+	}
+	c.HTML(http.StatusOK, tmpl, h)
 }
 
 //OrderIndex handles GET /admin/orders route
 func OrderIndex(c *gin.Context) {
 	db := models.GetDB()
 	var orders []models.Order
-	db.Order("id").Find(&orders)
+	user := activeUser(c)
+
+	if user.IsMember() {
+		db.Order("id desc").Where("email = ?", user.Email).Find(&orders)
+	} else {
+		db.Order("id desc").Find(&orders)
+	}
+
 	h := DefaultH(c)
 	h["Title"] = "Список заказов"
 	h["Orders"] = orders
-	c.HTML(http.StatusOK, "orders/index", h)
+	tmpl := "orders/index"
+	switch user.Role {
+	case models.MANAGER:
+		tmpl = "orders/manager_index"
+	case models.MEMBER:
+		tmpl = "orders/member_index"
+	}
+	c.HTML(http.StatusOK, tmpl, h)
 }
 
 //OrderNew handles GET /new_order route

@@ -13,7 +13,7 @@ import (
 func UserIndex(c *gin.Context) {
 	db := models.GetDB()
 	var users []models.User
-	db.Find(&users)
+	db.Order("id").Find(&users)
 	h := DefaultH(c)
 	h["Title"] = "Список пользователей"
 	h["Users"] = users

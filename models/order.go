@@ -1,5 +1,7 @@
 package models
 
+import "strings"
+
 //Order type contains buy order info
 type Order struct {
 	Model
@@ -11,4 +13,10 @@ type Order struct {
 	Phone      string    `form:"phone"`
 	Comment    string    `form:"comment"`
 	Products   []Product `gorm:"many2many:order_products;association_autoupdate:false;association_autocreate:false" binding:"-" form:"-"`
+}
+
+//BeforeCreate gorm hook
+func (o *Order) BeforeCreate() (err error) {
+	o.Email = strings.TrimSpace(strings.ToLower(o.Email))
+	return
 }
