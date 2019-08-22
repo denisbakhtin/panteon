@@ -9,7 +9,7 @@
 							<div class="footer-menu-header">{{.Title}}</div>
 							{{range .Children}}
 								<div class="footer-menu-item">
-									<i class="fas fa-chevron-right mr-2"></i><a href="{{.URL}}">{{.Title}}</a>
+									<i class="fas fa-chevron-right mr-2"></i><a href="{{safeURL .URL}}">{{.Title}}</a>
 								</div>	
 							{{end}}
 						</div><!-- col -->

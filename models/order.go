@@ -12,7 +12,7 @@ type Order struct {
 	Email      string    `form:"email"`
 	Phone      string    `form:"phone"`
 	Comment    string    `form:"comment"`
-	Products   []Product `gorm:"many2many:order_products;association_autoupdate:false;association_autocreate:false" binding:"-" form:"-"`
+	Products   []Product `gorm:"many2many:order_products;save_associations:false" binding:"-" form:"-"`
 }
 
 //BeforeCreate gorm hook

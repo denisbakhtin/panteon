@@ -17,12 +17,12 @@ type Product struct {
 	Published       bool     `form:"published"`
 	Slug            string   `form:"slug"`
 	Code            string   `form:"code"`
-	Category        Category `gorm:"association_autoupdate:false;association_autocreate:false" binding:"-" form:"-"`
+	Category        Category `gorm:"save_associations:false" binding:"-" form:"-"`
 	ImageIds        []uint64 `form:"imageids" gorm:"-"` //hack
 	DefaultImageID  uint64   `form:"defaultimageid"`
 	Recommended     bool     `form:"recommended"`
 	Images          []Image
-	Orders          []Order `gorm:"association_autoupdate:false;association_autocreate:false" binding:"-" form:"-"`
+	Orders          []Order `gorm:"save_associations:false" binding:"-" form:"-"`
 }
 
 //URL returns article url

@@ -49,6 +49,7 @@
                                 /*close the list of autocompleted values,
                                 (or any other open lists of autocompleted values:*/
                                 closeAllLists();
+                                inp.focus();
                         });
                         a.appendChild(b);
                     }
@@ -72,7 +73,9 @@
                     addActive(x);
                 } else if (e.keyCode == 13) {
                     /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                    e.preventDefault();
+                    //prevent default enter press if a drop down item is selected
+                    if (currentFocus != -1)
+                        e.preventDefault();
                     if (currentFocus > -1) {
                         /*and simulate a click on the "active" item:*/
                         if (x) x[currentFocus].click();
@@ -103,6 +106,7 @@
                 if (elmnt != x[i] && elmnt != inp) {
                 x[i].parentNode.removeChild(x[i]);
             }
+            currentFocus = -1;
         }
     }
     /*execute a function when someone clicks in the document:*/

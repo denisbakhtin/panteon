@@ -41,7 +41,7 @@
           <div class="mt-2">
             <form action="/cart/add/{{.Product.ID}}" method="POST">
               <input type="hidden" name="_csrf" value="{{$.Csrf}}">
-              <button type="button" class="btn btn-secondary" onclick="onAddToCart(this)"><i class="fas fa-shopping-cart mr-2"></i> Добавить в корзину</a>
+              <button type="button" class="btn btn-secondary" onclick="onAddToCart(this)"><i class="fas fa-shopping-cart mr-2"></i> Добавить в корзину</button>
             </form>
           </div>
         {{end}}

@@ -21,6 +21,11 @@ func PageGet(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "errors/404", nil)
 		return
 	}
+	//redirect to canonical url
+	if c.Request.URL.Path != page.URL() {
+		c.Redirect(301, page.URL())
+		return
+	}
 	h := DefaultH(c)
 	h["Title"] = page.Title
 	h["Page"] = page

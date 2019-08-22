@@ -15,12 +15,6 @@ html {
 body {
   color: #333333;
   border-color: $secondary;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'PT Serif', serif;
-  font-family: 'Exo 2', sans-serif;
-  font-family: 'EB Garamond', serif;
-  font-family: 'Vollkorn', serif;
-  font-family: 'IBM Plex Sans', sans-serif;
   font-family: 'Open Sans', sans-serif;
   line-height: 1.5;
   font-size: 16px;
@@ -782,8 +776,8 @@ input.form-control {
 }
 
 .advantages {
-  .col-sm-3 {
-    margin-top: 50px;
+  .col-sm-6 {
+    margin-top: 20px;
   }
 }
 

@@ -74,6 +74,7 @@ func getFuncMap() template.FuncMap {
 		"isAdmin":              isAdmin,
 		"isManager":            isManager,
 		"isMember":             isMember,
+		"safeURL":              safeURL,
 	}
 }
 
@@ -319,4 +320,8 @@ func panelEntryURL(user models.User) string {
 		url = "/"
 	}
 	return url
+}
+
+func safeURL(url string) template.URL {
+	return template.URL(url)
 }
