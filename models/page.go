@@ -22,14 +22,6 @@ func (p *Page) URL() string {
 	return fmt.Sprintf("/pages/%d-%s", p.ID, p.Slug)
 }
 
-//BeforeCreate gorm hook
-func (p *Page) BeforeCreate() (err error) {
-	if strings.TrimSpace(p.Slug) == "" {
-		p.Slug = createSlug(p.Title)
-	}
-	return
-}
-
 //BeforeSave gorm hook
 func (p *Page) BeforeSave() (err error) {
 	if strings.TrimSpace(p.Slug) == "" {

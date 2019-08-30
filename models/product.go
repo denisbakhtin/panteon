@@ -30,14 +30,6 @@ func (p *Product) URL() string {
 	return fmt.Sprintf("/p/%d-%s", p.ID, p.Slug)
 }
 
-//BeforeCreate gorm hook
-func (p *Product) BeforeCreate() (err error) {
-	if strings.TrimSpace(p.Slug) == "" {
-		p.Slug = createSlug(fmt.Sprintf("%s %s", p.Title, p.Code))
-	}
-	return
-}
-
 //BeforeSave gorm hook
 func (p *Product) BeforeSave() (err error) {
 	if strings.TrimSpace(p.Slug) == "" {

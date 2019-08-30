@@ -27,14 +27,6 @@ func (c *Category) URL() string {
 	return fmt.Sprintf("/c/%d-%s", c.ID, c.Slug)
 }
 
-//BeforeCreate gorm hook
-func (c *Category) BeforeCreate() (err error) {
-	if strings.TrimSpace(c.Slug) == "" {
-		c.Slug = createSlug(c.Title)
-	}
-	return
-}
-
 //BeforeSave gorm hook
 func (c *Category) BeforeSave() (err error) {
 	if strings.TrimSpace(c.Slug) == "" {

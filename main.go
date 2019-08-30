@@ -14,7 +14,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
-	"github.com/utrack/gin-csrf"
+	csrf "github.com/utrack/gin-csrf"
 )
 
 func main() {
@@ -43,7 +43,7 @@ func main() {
 	//setup sessions
 	conf := config.GetConfig()
 	store := memstore.NewStore([]byte(conf.SessionSecret))
-	store.Options(sessions.Options{HttpOnly: true, MaxAge: 7 * 86400}) //Also set Secure: true if using SSL, you should though
+	store.Options(sessions.Options{Path: "/", HttpOnly: true, MaxAge: 7 * 86400}) //Also set Secure: true if using SSL, you should though
 	router.Use(sessions.Sessions("gin-session", store))
 	router.Use(controllers.ContextData())
 
