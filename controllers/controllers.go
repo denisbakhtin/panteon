@@ -289,7 +289,7 @@ func tel(content string) string {
 func productTitles() []string {
 	db := models.GetDB()
 	var titles []string
-	db.Model(&models.Product{}).Where("published = true").Order("title").Pluck("title", &titles)
+	db.Raw("select distinct title from products where published = true order by title").Pluck("title", &titles)
 	return titles
 }
 

@@ -14,7 +14,7 @@ func SearchGet(c *gin.Context) {
 	db := models.GetDB()
 	var products []models.Product
 
-	db.Preload("Images").Where("lower(title) LIKE lower(?)", fmt.Sprintf("%%%s%%", strings.TrimSpace(c.Query("search")))).Find(&products)
+	db.Preload("Images").Where("published = true AND lower(title) LIKE lower(?)", fmt.Sprintf("%%%s%%", strings.TrimSpace(c.Query("search")))).Find(&products)
 
 	h := DefaultH(c)
 	h["Title"] = fmt.Sprintf("Результаты поиска по запросу: %s", c.Query("search"))

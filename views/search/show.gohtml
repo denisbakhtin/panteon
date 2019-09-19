@@ -7,25 +7,7 @@
   {{if len .Products | lt 0}}
     <div class="row">
       {{range .Products}}
-        <div class="col-sm-2 product-preview-wrapper position-relative">
-          <a href="{{.URL}}" class="d-block">
-            <div class="card product-preview">
-              <img class="img-fluid card-image-top" src="{{.DefaultImage}}" alt="{{.Title}} фото" />
-              <div class="card-body text-center">
-                {{.Title}}. {{.Code}}
-              </div>
-            </div>
-          </a>
-          {{if len .Images | lt 0}}
-            <div class="hidden images">
-              {{range $index, $value := .Images}}
-                {{if lt $index 3}}
-                  <img src="{{.URL}}" class="img-fluid" />
-                {{end}}
-              {{end}}
-            </div>
-          {{end}}
-        </div>
+        {{template "product_preview" .}}
       {{end}}
     </div>
   {{end}}
