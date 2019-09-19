@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/gob"
 	"flag"
 	"fmt"
 	"net/http"
@@ -12,14 +11,12 @@ import (
 	"github.com/denisbakhtin/panteon/controllers"
 	"github.com/denisbakhtin/panteon/models"
 	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/memstore"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	csrf "github.com/utrack/gin-csrf"
 )
 
 func main() {
-	gob.Register(controllers.CartType{})
-
 	mode := flag.String("mode", "debug", "Application mode: debug, release, test")
 	flag.Parse()
 
@@ -42,7 +39,7 @@ func main() {
 
 	//setup sessions
 	conf := config.GetConfig()
-	store := memstore.NewStore([]byte(conf.SessionSecret))
+	store := cookie.NewStore([]byte(conf.SessionSecret))
 	store.Options(sessions.Options{Path: "/", HttpOnly: true, MaxAge: 7 * 86400}) //Also set Secure: true if using SSL, you should though
 	router.Use(sessions.Sessions("gin-session", store))
 	router.Use(controllers.ContextData())
@@ -74,13 +71,7 @@ func main() {
 	router.GET("/p/:idslug", controllers.ProductGet)
 	router.GET("/rss", controllers.RssGet)
 
-	router.GET("/cart", controllers.CartGet)
-	router.POST("/cart/add/:id", controllers.CartAdd)
-	router.POST("/cart/delete/:id", controllers.CartDelete)
-
-	router.GET("/new_order", controllers.OrderNew)
-	router.POST("/new_order", controllers.OrderCreate)
-	router.GET("/confirm_order/:id", controllers.OrderConfirm)
+	router.POST("/order", controllers.OrderPost)
 
 	router.GET("/search", controllers.SearchGet)
 
@@ -143,30 +134,6 @@ func main() {
 		admin.GET("/advantages/:id/edit", controllers.AdvantageEdit)
 		admin.POST("/advantages/:id/edit", controllers.AdvantageUpdate)
 		admin.POST("/advantages/:id/delete", controllers.AdvantageDelete)
-
-		admin.GET("/orders", controllers.OrderIndex)
-		admin.GET("/orders/:id", controllers.OrderGet)
-		admin.POST("/orders/:id/delete", controllers.OrderDelete)
-	}
-
-	//manager area
-	manager := router.Group("/manager")
-	manager.Use(controllers.AuthRequired(models.MANAGER))
-	{
-		manager.GET("/orders", controllers.OrderIndex)
-		manager.GET("/orders/:id", controllers.OrderGet)
-		manager.GET("/manage", controllers.ManageGet)
-		manager.POST("/manage", controllers.ManagePost)
-	}
-
-	//member area
-	member := router.Group("/member")
-	member.Use(controllers.AuthRequired(models.MEMBER))
-	{
-		member.GET("/orders", controllers.OrderIndex)
-		member.GET("/orders/:id", controllers.OrderGet)
-		member.GET("/manage", controllers.ManageGet)
-		member.POST("/manage", controllers.ManagePost)
 	}
 
 	// Listen and server on 0.0.0.0:8081

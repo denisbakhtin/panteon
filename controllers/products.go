@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/Sirupsen/logrus"
@@ -29,23 +31,43 @@ func ProductGet(c *gin.Context) {
 	}
 
 	h := DefaultH(c)
+	session := sessions.Default(c)
+	h["Flash"] = session.Flashes()
 	h["Title"] = product.Title
-	h["Product"] = product
-	h["DefaultImage"] = product.DefaultImage()
+	h["Product"] = &product
 	h["MetaKeywords"] = product.MetaKeywords
 	h["MetaDescription"] = product.MetaDescription
-	h["ShowAddToCart"] = product.CategoryID != atouint64(getSetting("our_works"))
+	session.Save()
 	c.HTML(http.StatusOK, "products/show", h)
 }
 
 //ProductIndex handles GET /admin/products route
 func ProductIndex(c *gin.Context) {
+	limit, _ := strconv.Atoi(c.Query("limit"))
+	query := strings.ToLower(c.Query("query"))
+	page, _ := strconv.Atoi(c.Query("page"))
+	if page == 0 {
+		page = 1
+	}
 	db := models.GetDB()
 	var products []models.Product
-	db.Order("id asc").Preload("Category").Find(&products)
+	dbq := db.Model(&models.Product{})
+	if len(query) > 0 {
+		dbq = dbq.Where("lower(title) like ?", fmt.Sprintf("%%%s%%", query))
+	}
+	if limit == 0 {
+		limit = 100
+	}
+	paginator := buildPaginator(dbq, c.Request.URL.Path, c.Request.URL.RawQuery, limit, page)
+	dbq.Offset((page - 1) * limit).Limit(limit).
+		Order("id asc").Preload("Category").Find(&products)
 	h := DefaultH(c)
 	h["Title"] = "Список продукции"
 	h["Products"] = products
+	h["Limit"] = limit
+	h["Query"] = query
+	h["Page"] = page
+	h["Paginator"] = paginator
 	c.HTML(http.StatusOK, "products/index", h)
 }
 

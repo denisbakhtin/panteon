@@ -175,16 +175,9 @@ textarea.parsley-error {
 }
 
 .navbar {
-  .separator {
-    padding: 0.5rem 1.2rem;
-    color: #404040;
-
-    &:last-child {
-      display: none;
-    }
-  }
 
   .nav-item {
+      margin-right: 5px;
 
     &:hover,
     &.active {
@@ -225,7 +218,7 @@ textarea.parsley-error {
   &.navbar-light {
     .nav-link {
       color: #333;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .text-danger {
@@ -239,6 +232,7 @@ textarea.parsley-error {
     .navbar-nav {
       .nav-link {
         color: rgba(255, 255, 255, 0.9);
+        font-size: 15px;
       }
     }
   }
@@ -519,7 +513,7 @@ input.form-control {
   }
 }
 
-#one-column {
+#one-column, #two-column {
   margin: 25px 0;
 }
 
@@ -571,8 +565,6 @@ input.form-control {
   .content {
     padding: 15px;
     background: white;
-    border: 1px solid $divider;
-    height: 100%;
   }
 
   .image-wrapper {
@@ -820,7 +812,7 @@ input.form-control {
     }
 
     a {
-      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
       height: 100%;
       display: block;
 
@@ -836,6 +828,10 @@ input.form-control {
         border: none;
         height: 100%;
 
+        .img-wrapper {
+            height: 200px;
+        }
+
         .card-body {
           border-top: 1px solid $divider;
           color: #222;
@@ -849,7 +845,8 @@ input.form-control {
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .hidden {
@@ -1001,4 +998,20 @@ dl {
     color: #fff;
     text-decoration: none;
   }
+}
+
+ul.pagination {
+  margin-bottom: 0;
+}
+.text-center nav.pagination-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.breadcrumb {
+    background-color: rgba(255,255,255,0.5);
+}
+
+a {
+    color: #001F6C;
 }

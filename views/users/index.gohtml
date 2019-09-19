@@ -22,10 +22,10 @@
           <td>{{.Email}}</td>
           <td>{{userRole .Role}}
           <td class="shrink">
-            <a href="/admin/users/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <a href="/admin/users/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary"><i class="fas fa-pencil-alt"></i></a>
             <form class="inline-block" action="/admin/users/{{.ID}}/delete" method="post">
               <input type="hidden" name="_csrf" value="{{$.Csrf}}">
-              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);"><i class="fas fa-times"></i></button>
             </form>
           </td>
         </tr>

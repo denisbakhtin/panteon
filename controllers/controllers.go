@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"math"
+	"net/url"
 	"os"
 	"path"
 	"regexp"
@@ -13,6 +15,7 @@ import (
 	"github.com/denisbakhtin/panteon/config"
 	"github.com/denisbakhtin/panteon/models"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	csrf "github.com/utrack/gin-csrf"
 )
 
@@ -24,6 +27,12 @@ var tmpl *template.Template
 type Option struct {
 	Value string
 	Text  string
+}
+
+//Page represents pagination page
+type Page struct {
+	URL   string
+	Title string
 }
 
 //DefaultH returns common to all pages template data
@@ -191,7 +200,7 @@ func noescape(content string) template.HTML {
 func topLevelMenuItems() []models.MenuItem {
 	db := models.GetDB()
 	var menus []models.MenuItem
-	db.Preload("Children").Order("ord asc").Find(&menus, "parent_id is null")
+	db.Preload("Children").Order("ord asc, id asc").Find(&menus, "parent_id is null")
 	return menus
 }
 
@@ -214,7 +223,7 @@ func selectableCategories() []models.Category {
 func topLevelCategories() []models.Category {
 	db := models.GetDB()
 	var categories []models.Category
-	db.Preload("Children").Order("ord asc").Find(&categories, "parent_id is null")
+	db.Preload("Children").Order("ord asc, id asc").Find(&categories, "parent_id is null")
 	return categories
 }
 
@@ -324,4 +333,47 @@ func panelEntryURL(user models.User) string {
 
 func safeURL(url string) template.URL {
 	return template.URL(url)
+}
+
+func buildPaginator(dbq *gorm.DB, path, query string, limit, page int) []Page {
+	count := 0
+	dbq.Count(&count)
+	if count <= limit {
+		return nil
+	}
+	pages := make([]Page, 0, 10)
+	pagesTotal := int(math.Ceil(float64(count) / float64(limit)))
+	prev := Page{Title: "Пред."}
+	if page > 1 {
+		q, _ := url.ParseQuery(query)
+		q.Set("page", fmt.Sprint(page-1))
+		prev.URL = path + "?" + q.Encode()
+	}
+	next := Page{Title: "След."}
+	if page <= pagesTotal-1 {
+		q, _ := url.ParseQuery(query)
+		q.Set("page", fmt.Sprint(page+1))
+		next.URL = path + "?" + q.Encode()
+	}
+
+	first := Page{Title: "1"}
+	q, _ := url.ParseQuery(query)
+	q.Del("page")
+	first.URL = path + "?" + q.Encode()
+
+	last := Page{Title: fmt.Sprint(pagesTotal)}
+	q, _ = url.ParseQuery(query)
+	q.Set("page", fmt.Sprint(pagesTotal))
+	last.URL = path + "?" + q.Encode()
+
+	ellipsis := Page{Title: "..."}
+	pages = append(pages, prev)
+	pages = append(pages, first)
+	if pagesTotal > 2 {
+		pages = append(pages, ellipsis)
+	}
+	pages = append(pages, last)
+	pages = append(pages, next)
+
+	return pages
 }

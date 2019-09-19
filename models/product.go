@@ -44,3 +44,38 @@ func (p *Product) DefaultImage() string {
 	db.First(&img, p.DefaultImageID)
 	return img.URL
 }
+
+//DefaultImagePreview returns url of the default product img thumbnail
+func (p *Product) DefaultImagePreview() string {
+	img := Image{}
+	db.First(&img, p.DefaultImageID)
+	if len(img.PreviewURL) > 0 {
+		return img.PreviewURL
+	}
+	return img.URL
+}
+
+//Breadcrumbs returns a list of product breadcrumbs
+func (p *Product) Breadcrumbs() []Breadcrumb {
+	var par, gpar, ggpar, gggpar Category
+	db.First(&par, p.CategoryID)
+	gpar = par.GetParent()
+	ggpar = gpar.GetParent()
+	gggpar = ggpar.GetParent()
+	res := make([]Breadcrumb, 0, 10)
+	res = append(res, Breadcrumb{Title: "Главная", URL: "/"})
+	if gggpar.ID != 0 {
+		res = append(res, Breadcrumb{Title: gggpar.Title, URL: gggpar.URL()})
+	}
+	if ggpar.ID != 0 {
+		res = append(res, Breadcrumb{Title: ggpar.Title, URL: ggpar.URL()})
+	}
+	if gpar.ID != 0 {
+		res = append(res, Breadcrumb{Title: gpar.Title, URL: gpar.URL()})
+	}
+	if par.ID != 0 {
+		res = append(res, Breadcrumb{Title: par.Title, URL: par.URL()})
+	}
+	res = append(res, Breadcrumb{Title: p.Title})
+	return res
+}

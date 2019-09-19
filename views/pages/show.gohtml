@@ -3,6 +3,7 @@
 {{template "navbar" .}}
 
 <div id="one-column" class="page">
+  {{template "breadcrumbs" .Page.Breadcrumbs}}
   <h1>{{.Title}}</h1>
   <div class="description">
     {{noescape .Page.Description}}

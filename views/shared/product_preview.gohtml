@@ -1,0 +1,12 @@
+{{define "product_preview"}}
+<div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4 product-preview-wrapper position-relative">
+  <a href="{{.URL}}" class="d-block">
+    <div class="card product-preview">
+      <div class="img-wrapper" style="background-image:url('{{.DefaultImagePreview}}'); background-size: cover; background-position: center center;"></div>
+      <div class="card-body text-center">
+        {{.Title}}{{if .Code}}. {{.Code}}{{end}}
+      </div>
+    </div>
+  </a>
+</div>
+{{end}}

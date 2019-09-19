@@ -7,6 +7,7 @@ import (
 
 	"github.com/fiam/gounidecode/unidecode"
 	"github.com/jinzhu/gorm"
+
 	//postgres dialect, required by gorm
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -17,6 +18,12 @@ type Model struct {
 	CreatedAt time.Time  `binding:"-" form:"-"`
 	UpdatedAt time.Time  `binding:"-" form:"-"`
 	DeletedAt *time.Time `binding:"-" form:"-"`
+}
+
+//Breadcrumb represents a breadcrumb, not stored in db
+type Breadcrumb struct {
+	URL   string
+	Title string
 }
 
 var db *gorm.DB
@@ -37,7 +44,7 @@ func GetDB() *gorm.DB {
 
 //AutoMigrate runs gorm auto migration
 func AutoMigrate() {
-	db.AutoMigrate(&User{}, &Page{}, &MenuItem{}, &Category{}, &Product{}, &Image{}, &Setting{}, &Advantage{}, &Order{})
+	db.AutoMigrate(&User{}, &Page{}, &MenuItem{}, &Category{}, &Product{}, &Image{}, &Setting{}, &Advantage{})
 }
 
 //truncate truncates string to n runes

@@ -28,7 +28,7 @@ func PageGet(c *gin.Context) {
 	}
 	h := DefaultH(c)
 	h["Title"] = page.Title
-	h["Page"] = page
+	h["Page"] = &page
 	h["MetaKeywords"] = page.MetaKeywords
 	h["MetaDescription"] = page.MetaDescription
 	h["ShowMap"] = page.ID == atouint64(getSetting("about_id"))

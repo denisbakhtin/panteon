@@ -29,3 +29,11 @@ func (p *Page) BeforeSave() (err error) {
 	}
 	return
 }
+
+//Breadcrumbs returns a list of page breadcrumbs
+func (p *Page) Breadcrumbs() []Breadcrumb {
+	res := make([]Breadcrumb, 0, 2)
+	res = append(res, Breadcrumb{Title: "Главная", URL: "/"})
+	res = append(res, Breadcrumb{Title: p.Title})
+	return res
+}

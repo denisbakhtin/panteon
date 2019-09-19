@@ -19,6 +19,7 @@ type Category struct {
 	Products        []Product
 	Class           string     `form:"class"`
 	Ord             int        `form:"ord"`
+	ProductCount    int        `form:"-" binding:"-" gorm:"-"`
 	Children        []Category `gorm:"foreignkey:ParentID"`
 }
 
@@ -51,4 +52,30 @@ func (c *Category) GetParent() Category {
 		db.First(&parent, *c.ParentID)
 	}
 	return parent
+}
+
+//IsEmpty returns true if c has no products and children (they should be preloaded)
+func (c *Category) IsEmpty() bool {
+	return len(c.Products) == 0 && len(c.Children) == 0
+}
+
+//Breadcrumbs returns a list of category breadcrumbs
+func (c *Category) Breadcrumbs() []Breadcrumb {
+	var par, gpar, ggpar Category
+	par = c.GetParent()
+	gpar = par.GetParent()
+	ggpar = gpar.GetParent()
+	res := make([]Breadcrumb, 0, 10)
+	res = append(res, Breadcrumb{Title: "Главная", URL: "/"})
+	if ggpar.ID != 0 {
+		res = append(res, Breadcrumb{Title: ggpar.Title, URL: ggpar.URL()})
+	}
+	if gpar.ID != 0 {
+		res = append(res, Breadcrumb{Title: gpar.Title, URL: gpar.URL()})
+	}
+	if par.ID != 0 {
+		res = append(res, Breadcrumb{Title: par.Title, URL: par.URL()})
+	}
+	res = append(res, Breadcrumb{Title: c.Title})
+	return res
 }

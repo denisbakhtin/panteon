@@ -9,7 +9,7 @@
       <tr>
         <th class="shrink">#</th>
         <th>Название</th>
-        <th class="shrink">Опубликована</th>
+        <th class="shrink">Оп.</th>
         <th class="shrink">Действия</th>
       </tr>
     </thead>
@@ -26,11 +26,11 @@
             {{end}}
           </td>
           <td class="shrink">
-            <a href="{{.URL}}" class="btn btn-sm btn-outline-primary">Просмотр</a>
-            <a href="/admin/pages/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <a href="{{.URL}}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+            <a href="/admin/pages/{{.ID}}/edit" class="btn btn-sm btn-outline-secondary"><i class="fas fa-pencil-alt"></i></a>
             <form class="inline-block" action="/admin/pages/{{.ID}}/delete" method="post">
               <input type="hidden" name="_csrf" value="{{$.Csrf}}">
-              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);">Удалить</button>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="((confirm('Вы уверены?')) ? this.form.submit() : null);"><i class="fas fa-times"></i></button>
             </form>
           </td>
         </tr>
