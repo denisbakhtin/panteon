@@ -3,13 +3,18 @@
 {{template "navbar" .}}
 
 <div id="one-column" class="category-show">
-  <h4>{{.Title}}</h4>
+  <h4 class="mb-4">{{.Title}}</h4>
   {{if len .Products | lt 0}}
     <div class="row">
       {{range .Products}}
         {{template "product_preview" .}}
       {{end}}
     </div>
+    {{if .Paginator}}
+      <div class="text-center mt-4">{{template "paginator" .Paginator}}</div>
+    {{end}}
+  {{else}}}
+    <p>По вашему запросу товары не найдены, повторите попытку.</p>
   {{end}}
 </div>
 
