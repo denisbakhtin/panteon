@@ -6,12 +6,12 @@
 <script src="/public/assets/application.js?v={{jsVersion}}"></script>
 <script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    {{if isProduction}}}
+    {{if isProduction}}
     <!-- context menu -->
     document.addEventListener("contextmenu", function(e){
         e.preventDefault();
     }, false);
-    {{end}}}
+    {{end}}
     <!-- search auto complete -->
     var products = [
         {{range productTitles}}
