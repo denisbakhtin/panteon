@@ -84,6 +84,7 @@ func getFuncMap() template.FuncMap {
 		"isManager":            isManager,
 		"isMember":             isMember,
 		"safeURL":              safeURL,
+		"isProduction":         isProduction,
 	}
 }
 
@@ -376,4 +377,8 @@ func buildPaginator(dbq *gorm.DB, path, query string, limit, page int) []Page {
 	pages = append(pages, next)
 
 	return pages
+}
+
+func isProduction() bool {
+	return gin.Mode() == "release"
 }
